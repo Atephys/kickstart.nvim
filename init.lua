@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -114,9 +114,6 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -165,6 +162,9 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror message' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -188,6 +188,34 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- custom keymaps
+
+vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'In [P]roject open directory' })
+
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'move line down' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'move line up' })
+
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'append next line to current line' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'jump half window down' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'jump half window up' })
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'find next occurence and center it' })
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'find previous occurence and center it' })
+
+vim.keymap.set('n', '<leader>y', '"+y', { desc = 'yank into system clipboard' })
+vim.keymap.set('v', '<leader>y', '"+y', { desc = 'yank into system clipboard' })
+vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'yank line into system clipboard' })
+
+vim.keymap.set('n', '<leader>d', '"_d')
+vim.keymap.set('v', '<leader>d', '"_d', { desc = '[D]elete into blackhole register' })
+
+vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz', { desc = 'Next item in quickfix list' })
+vim.keymap.set('n', '<C-j>', '<cmd>cprev<CR>zz', { desc = 'Previous item in quickfix list' })
+vim.keymap.set('n', '<leader>k', '<cmd>lnext<CR>zz', { desc = 'Next item in location list' })
+vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz', { desc = 'Previous item in location list' })
+
+vim.keymap.set('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = '[S]earch and replace in entire document' })
+vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'make e[X]ecutable' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
