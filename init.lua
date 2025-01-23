@@ -153,6 +153,11 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- set poweshell as editor on windows
+if vim.fn.has 'win32' == 1 then
+  vim.api.nvim_set_option('shell', 'pwsh')
+end
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -216,6 +221,13 @@ vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz', { desc = 'Previous item in 
 
 vim.keymap.set('n', '<leader>srp', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = '[S]earch and [R]e[P]lace in entire document' })
 vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'make e[X]ecutable' })
+
+vim.keymap.set('n', '<leader>ts', function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd 'J'
+  vim.api.nvim_win_set_height(0, 10)
+end)
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
