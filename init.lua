@@ -239,7 +239,6 @@ vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz', { desc = 'Previous item in 
 
 vim.keymap.set('n', '<leader>srp', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = '[S]earch and [R]e[P]lace in entire document' })
 vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'make e[X]ecutable' })
->>>>>>> 8458396 (customize init.lua)
 
 vim.keymap.set('n', '<leader>ts', function()
   vim.cmd.vnew()
@@ -807,7 +806,6 @@ require('lazy').setup({
         -- languages here or re-enable it for the disabled ones.
         local disable_filetypes = { c = true, cpp = true, cmake = true }
         local lsp_format_opt
->>>>>>> ab1a3e9 (some lsp config)
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
