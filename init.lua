@@ -255,11 +255,11 @@ vim.keymap.set('n', '<leader>mp', function()
   -- Execute the showdown command
   vim.fn.system('showdown makehtml -i ' .. current_file .. ' -o ' .. output_file .. ' --flavor="github"')
 
-  -- Open the generated HTML in Firefox
-  vim.fn.system('firefox ' .. output_file .. ' &')
+  -- Open the generated HTML in default browser
+  vim.fn.system('xdg-open ' .. output_file .. ' &')
 
-  print 'Markdown converted and opened in Firefox'
-end, { desc = 'Preview Markdown in Firefox' })
+  print 'Markdown converted and opened in default browser'
+end, { desc = 'Preview Markdown in the Default Browser' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
