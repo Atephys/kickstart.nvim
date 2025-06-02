@@ -247,6 +247,20 @@ vim.keymap.set('n', '<leader>ts', function()
   vim.api.nvim_win_set_height(0, 10)
 end, { desc = '[T]erminal [S]tart' })
 
+-- In your init.lua or similar configuration file
+vim.keymap.set('n', '<leader>mp', function()
+  local current_file = vim.fn.expand '%:p'
+  local output_file = vim.fn.expand '%:p:r' .. '.html'
+
+  -- Execute the showdown command
+  vim.fn.system('showdown makehtml -i ' .. current_file .. ' -o ' .. output_file .. ' --flavor="github"')
+
+  -- Open the generated HTML in Firefox
+  vim.fn.system('firefox ' .. output_file .. ' &')
+
+  print 'Markdown converted and opened in Firefox'
+end, { desc = 'Preview Markdown in Firefox' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
