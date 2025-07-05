@@ -93,6 +93,14 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+vim.cmd [[
+  augroup TransparentBackground
+  autocmd!
+  autocmd ColorScheme * highlight Normal ctermbg=none guibg=none
+  autocmd ColorScheme * highlight NonText ctermbg=none guibg=none
+  augroup END
+]]
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -166,9 +174,12 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- use fish as shell
+vim.o.shell = '/usr/bin/fish'
+
 -- set poweshell as editor on windows
 if vim.fn.has 'win32' == 1 then
-  vim.api.nvim_set_option('shell', 'pwsh')
+  vim.o.shell = 'pwsh'
 end
 
 -- [[ Basic Keymaps ]]
