@@ -824,7 +824,7 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       ensure_installed = vim.tbl_filter(function(name)
-        return name ~= 'bitbake_ls'
+        return name ~= 'bitbake_ls' and name ~= 'cmake'
       end, ensure_installed)
 
       vim.list_extend(ensure_installed, {
@@ -878,7 +878,7 @@ require('lazy').setup({
 
   { -- Autocompletion
     'saghen/blink.cmp',
-    event = 'VimEnter',
+    -- event = 'VimEnter',
     version = '1.*',
     dependencies = {
       -- Snippet Engine
@@ -968,7 +968,7 @@ require('lazy').setup({
       -- the rust implementation via `'prefer_rust_with_warning'`
       --
       -- See :h blink-cmp-config-fuzzy for more information
-      fuzzy = { implementation = 'lua' },
+      fuzzy = { implementation = 'prefer_rust' },
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
