@@ -183,6 +183,9 @@ vim.opt.tabstop = 4 -- Tab width
 vim.opt.softtabstop = 4 -- Soft tab width
 vim.opt.shiftwidth = 4 -- Indent width
 
+-- enable project-local configurations
+vim.o.exrc = true
+
 -- set poweshell as editor on windows
 if vim.fn.has 'win32' == 1 then
   vim.o.shell = 'pwsh'
