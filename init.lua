@@ -798,6 +798,7 @@ require('lazy').setup({
           },
         },
         bitbake_ls = {},
+        ansiblels = {},
       }
 
       -- The following loop will configure each server with the capabilities we defined above.
