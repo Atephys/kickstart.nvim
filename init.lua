@@ -273,16 +273,49 @@ end, { desc = '[T]erminal [S]tart' })
 
 -- In your init.lua or similar configuration file
 vim.keymap.set('n', '<leader>mp', function()
-  local current_file = vim.fn.expand '%:p'
-  local output_file = vim.fn.expand '%:p:r' .. '.html'
+  local src = vim.fn.expand '%:p'
+  local out = vim.fn.expand '%:p:r' .. '.html'
 
-  -- Execute the showdown command
-  vim.fn.system('showdown makehtml -i ' .. current_file .. ' -o ' .. output_file .. ' --flavor="github"')
+  -- vim.system keeps stdout and stderr apart: showdown logs its progress
+  -- ("Enabling option ...") to stderr, which vim.fn.system would put into the page
+  local res = vim.system({ 'showdown', 'makehtml', '-i', src, '--flavor', 'github' }, { text = true }):wait()
+  if res.code ~= 0 then
+    vim.notify('showdown failed: ' .. (res.stderr or ''), vim.log.levels.ERROR)
+    return
+  end
+  local body = res.stdout
 
-  -- Open the generated HTML in default browser
-  vim.fn.system('xdg-open ' .. output_file .. ' &')
+  local head = [[<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>]] .. vim.fn.expand '%:t' .. [[</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { background: #0d1117; }
+  body {
+    color: #e6edf3;
+    font: 16px/1.6 -apple-system, "Segoe UI", "Noto Sans", sans-serif;
+    max-width: 52rem; margin: 0 auto; padding: 3rem 1.5rem;
+  }
+  h1, h2 { border-bottom: 1px solid #30363d; padding-bottom: .3em; }
+  a { color: #4493f8; }
+  code, pre { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: .9em; }
+  code { background: #6e768166; padding: .2em .4em; border-radius: 6px; }
+  pre { background: #161b22; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  blockquote { border-left: .25em solid #30363d; margin: 0; padding: 0 1em; color: #9198a1; }
+  table { border-collapse: collapse; }
+  th, td { border: 1px solid #30363d; padding: .4em .8em; }
+  tr:nth-child(2n) { background: #151b23; }
+  img { max-width: 100%; }
+</style>
+</head><body>
+]]
 
-  print 'Markdown converted and opened in default browser'
+  vim.fn.writefile(vim.split(head .. body .. '\n</body></html>', '\n'), out)
+  vim.fn.jobstart({ 'xdg-open', out }, { detach = true })
+  vim.notify('Preview: ' .. out)
 end, { desc = 'Preview Markdown in the Default Browser' })
 
 -- [[ Basic Autocommands ]]
