@@ -268,7 +268,7 @@ vim.keymap.set('n', '<leader>ts', function()
   vim.cmd.vnew()
   vim.cmd.term()
   vim.cmd.wincmd 'J'
-  vim.api.nvim_win_set_height(0, 10)
+  vim.api.nvim_win_resize(0, -1, 10, { anchor = 'bottom' })
 end, { desc = '[T]erminal [S]tart' })
 
 -- In your init.lua or similar configuration file
